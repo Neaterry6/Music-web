@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playback - StreamMe</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+    </header>
+    <main>
+        <div class="playback-container">
+            <h1>Now Playing</h1>
+            <video id="videoPlayer" controls>
+                <source src="./assets/example-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="controls">
+                <button onclick="applyEffect('normal')">Normal</button>
+                <button onclick="applyEffect('slow')">Slow Motion</button>
+                <button onclick="applyEffect('speedup')">Speed Up</button>
+                <button onclick="applyEffect('reverb')">Reverb</button>
+            </div>
+        </div>
+    </main>
+    <script src="./js/play.js"></script>
+</body>
+</html
