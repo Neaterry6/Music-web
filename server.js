@@ -1,9 +1,13 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const { Server } = require("socket.io"); // Added for real-time chat
+const http = require("http");
 require("dotenv").config();
 
 const app = express();
+const server = http.createServer(app); // Wrap app in HTTP server for Socket.IO
+const io = new Server(server); // Initialize Socket.IO
 const PORT = process.env.PORT || 3000;
 
 // Simulated database for users and chat history
@@ -109,6 +113,38 @@ app.get("/api/chatbot", async (req, res) => {
     }
 });
 
+// Real-time Chatroom Socket.IO Integration
+io.on("connection", (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    // Handle user joining the chatroom
+    socket.on("join-chat", ({ username, uid }) => {
+        users.push({ username, uid, socketId: socket.id });
+        socket.broadcast.emit("user-joined", { username });
+        console.log(`${username} joined the chat.`);
+    });
+
+    // Handle new chat messages
+    socket.on("chat-message", ({ username, message }) => {
+        const timestamp = new Date().toLocaleTimeString();
+        chatHistory[username] = chatHistory[username] || [];
+        chatHistory[username].push({ message, timestamp });
+
+        // Emit to all clients
+        io.emit("chat-message", { username, message, timestamp });
+    });
+
+    // Handle user disconnect
+    socket.on("disconnect", () => {
+        const user = users.find((u) => u.socketId === socket.id);
+        if (user) {
+            users.splice(users.indexOf(user), 1);
+            io.emit("user-left", { username: user.username });
+            console.log(`${user.username} left the chat.`);
+        }
+    });
+});
+
 // Music and Video Search API
 app.get("/api/search", async (req, res) => {
     const query = req.query.q;
@@ -141,7 +177,7 @@ app.get("/api/search", async (req, res) => {
     }
 });
 
-// MP3 Download API
+// MP3 and Video Download APIs
 app.get("/api/download-mp3", async (req, res) => {
     const url = req.query.url;
     const API_KEY = process.env.API_KEY;
@@ -157,7 +193,6 @@ app.get("/api/download-mp3", async (req, res) => {
     }
 });
 
-// Video Download API
 app.get("/api/download-video", async (req, res) => {
     const url = req.query.url;
     const quality = req.query.quality || "360";
@@ -174,17 +209,16 @@ app.get("/api/download-video", async (req, res) => {
     }
 });
 
-// Upload Image API
+// Upload APIs
 app.post("/api/upload-image", upload.single("image"), (req, res) => {
     res.json({ imageUrl: `/assets/${req.file.filename}` });
 });
 
-// Upload Voice API
 app.post("/api/upload-voice", upload.single("voice"), (req, res) => {
     res.json({ voiceUrl: `/assets/${req.file.filename}` });
 });
 
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
