@@ -27,6 +27,5 @@
   },
   "devCommand": "npm run dev",
   "buildCommand": "npm install && npm run build",
-  "outputDirectory": "public",
-  "framework": "node"
+  "outputDirectory": "public"
 }
