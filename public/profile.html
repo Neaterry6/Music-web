@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +12,46 @@
         <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
     </header>
     <main>
-        <h1>Create Your Profile</h1>
-        <form id="profileForm" enctype="multipart/form-data">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="dp">Display Picture:</label>
-            <input type="file" id="dp" name="dp" accept="image/*">
-            <button type="submit">Save Profile</button>
-        </form>
+        <!-- Login Section -->
+        <section class="login-container">
+            <h1>Log In</h1>
+            <form id="profileForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Log In</button>
+            </form>
+        </section>
+
+        <!-- User Profile Section -->
+        <section class="profile-container" style="display: none;" id="profileSection">
+            <h1>Your Profile</h1>
+            <div class="profile-info">
+                <img src="./assets/default-avatar.png" alt="Profile Picture" id="profilePicture" class="profile-picture">
+                <div class="profile-details">
+                    <h2 id="userName">[Your Name]</h2>
+                    <p id="userEmail">[Your Email]</p>
+                    <p id="userIIF">IIF Number: [IIF]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat History Section -->
+        <section class="history-container" style="display: none;" id="chatHistorySection">
+            <h2>Chat History</h2>
+            <div id="chatHistory" class="chat-history">
+                <!-- Chat history will be populated dynamically -->
+            </div>
+        </section>
+
+        <!-- Last Searches Section -->
+        <section class="search-container" style="display: none;" id="lastSearchesSection">
+            <h2>Last Searches</h2>
+            <div id="lastSearches" class="last-searches">
+                <!-- Last searches will be populated dynamically -->
+            </div>
+        </section>
     </main>
     <script src="./js/profile.js"></script>
 </body>
