@@ -1,45 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatroom - Music Web</title>
-    <link rel="stylesheet" href="./css/chatroom.css">
+  <meta charset="UTF-8">
+  <title>✨ Titan Chatroom ✨</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #222222;
+      --header-bg: #333333;
+      --header-text: #ffffff;
+      --msg-bg: #f0f0f0;
+      --ai-bg: #e1ffe1;
+      --link-color: #4facfe;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f5f5f5;
+      --header-bg: #1f1f1f;
+      --header-text: #ffffff;
+      --msg-bg: #252525;
+      --ai-bg: #0f4034;
+      --link-color: #03dac5;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menu {
+      display: flex;
+      gap: 15px;
+    }
+
+    .menu a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: 1px solid var(--header-text);
+      color: var(--header-text);
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-messages div {
+      padding: 12px;
+      background: var(--msg-bg);
+      border-radius: 8px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .ai-message {
+      background: var(--ai-bg);
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    form {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    form input {
+      border: none;
+      flex: 1;
+      padding: 15px;
+      font-size: 1em;
+      outline: none;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    form button {
+      background: var(--link-color);
+      border: none;
+      color: white;
+      padding: 0 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
-<body>
-    <!-- Chatroom Header -->
-    <header class="chatroom-header">
-        <div class="header-content">
-            <div class="logo">🎵 Music Web</div>
-            <div class="user-info">
-                <span id="userName">Hello, <span id="userDisplayName"></span></span>
-            </div>
-        </div>
-    </header>
+<body data-theme="light">
+  <div class="chat-header">
+    <div>
+      💬 Titan Chat
+    </div>
+    <div class="menu">
+      <a href="/">🏠 Home</a>
+      <a href="/lyrics">🎶 Lyrics</a>
+      <a href="/profile">👤 Profile</a>
+      <button class="toggle-btn" onclick="toggleTheme()">🌓</button>
+    </div>
+  </div>
 
-    <!-- Chat Container -->
-    <main class="chat-container">
-        <div class="chat-history" id="chatHistory">
-            <!-- Chat messages will be dynamically inserted here -->
-        </div>
-        <div class="chat-input-container">
-            <!-- Message Input -->
-            <textarea
-                id="messageInput"
-                class="chat-input"
-                placeholder="Type your message... Use '@bot' to chat with the bot"
-            ></textarea>
-            <!-- Send Message Button -->
-            <button id="sendMessageBtn" class="send-btn">Send</button>
-        </div>
-    </main>
+  <div id="messages" class="chat-messages"></div>
 
-    <!-- Chatroom Footer -->
-    <footer class="chatroom-footer">
-        <p>Built with 💙 by heisbroken ✍️</p>
-    </footer>
+  <form id="form" action="">
+    <input id="input" autocomplete="off" placeholder="Type a message..." />
+    <button>Send</button>
+  </form>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="./js/chatroom.js"></script>
+  <script>
+    // Socket.IO Setup
+    const socket = io();
+    let username = prompt("Enter your chat name:") || "Anonymous";
+
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    // Load Chat History from Server
+    async function loadChatHistory() {
+      try {
+        const response = await fetch('/api/chat/history');
+        if (!response.ok) {
+          throw new Error('Failed to fetch chat history');
+        }
+        const chatHistory = await response.json();
+        chatHistory.forEach(msg => {
+          const item = document.createElement('div');
+          item.textContent = msg;
+          if (msg.startsWith("🤖 Titan-AI:")) {
+            item.classList.add('ai-message');
+          }
+          messages.appendChild(item);
+        });
+        messages.scrollTop = messages.scrollHeight;
+      } catch (error) {
+        console.error('Error loading chat history:', error);
+      }
+    }
+
+    // Send New Message
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (input.value.trim()) {
+        const message = `${username}: ${input.value}`;
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    });
+
+    // Listen for New Messages
+    socket.on('chat message', (msg) => {
+      const item = document.createElement('div');
+      item.textContent = msg;
+      if (msg.startsWith("🤖 Titan-AI:")) {
+        item.classList.add('ai-message');
+      }
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    // Theme Toggle
+    function toggleTheme() {
+      const body = document.body;
+      body.dataset.theme = body.dataset.theme === "dark" ? "light" : "dark";
+    }
+
+    // Load chat history on page load
+    loadChatHistory();
+  </script>
 </body>
 </html>
