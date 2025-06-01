@@ -30,7 +30,7 @@ downloadMP3.addEventListener("click", async () => {
     } catch (error) {
         alert("Failed to fetch MP3 download link.");
         console.error(error);
-    }
+    } 
 });
 
 downloadMP4.addEventListener("click", async () => {
