@@ -1,61 +1,84 @@
+// DOM Elements
 const chatMessages = document.getElementById("chatMessages");
 const messageInput = document.getElementById("messageInput");
 const sendMessageBtn = document.getElementById("sendMessageBtn");
 const imageUpload = document.getElementById("imageUpload");
 const recordBtn = document.getElementById("recordBtn");
 
-// Send Message
-sendMessageBtn.addEventListener("click", () => {
-    const message = messageInput.value.trim();
-    if (message.startsWith(".")) {
-        callChatbot(message.substring(1));
-    } else {
-        appendMessage("You", message);
+sendMessageBtn.addEventListener("click", sendMessage);
+messageInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
     }
-    messageInput.value = "";
 });
 
-// Call Chatbot
-async function callChatbot(query) {
-    try {
-        const response = await fetch(`/api/chatbot?ask=${encodeURIComponent(query)}&uid=1234`);
-        const data = await response.json();
-        appendMessage("Chatbot", data.response);
-    } catch (error) {
-        console.error("Chatbot Error:", error);
+imageUpload.addEventListener("change", handleImageUpload);
+recordBtn.addEventListener("click", recordVoice);
+
+// Send Message
+function sendMessage() {
+    const userMessage = messageInput.value.trim();
+    if (!userMessage) return;
+
+    // Display user's message
+    addMessageToChat("user", userMessage);
+
+    // Check if the message includes @bot
+    if (userMessage.includes("@bot")) {
+        callChatbotAPI(userMessage);
     }
+
+    // Clear the input
+    messageInput.value = "";
 }
 
-// Append Message to Chat
-function appendMessage(sender, message) {
-    const div = document.createElement("div");
-    div.classList.add("message");
-    div.innerHTML = `<strong>${sender}:</strong> ${message}`;
-    chatMessages.appendChild(div);
+// Add Message to Chat
+function addMessageToChat(sender, message) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+
+    // Scroll to the bottom of the chat
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Image Upload
-imageUpload.addEventListener("change", async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const formData = new FormData();
-        formData.append("image", file);
+// Call Chatbot API
+async function callChatbotAPI(userMessage) {
+    try {
+        const response = await fetch(`/api/chatbot?ask=${encodeURIComponent(userMessage)}`, {
+            method: "GET",
+        });
+        const data = await response.json();
 
-        try {
-            const response = await fetch("/api/upload-image", {
-                method: "POST",
-                body: formData,
-            });
-            const data = await response.json();
-            appendMessage("You", `<img src="${data.imageUrl}" alt="Uploaded Image" style="max-width: 200px;">`);
-        } catch (error) {
-            console.error("Image Upload Error:", error);
+        if (data.error) {
+            throw new Error(data.error);
         }
-    }
-});
 
-// Voice Recording (Placeholder)
-recordBtn.addEventListener("click", () => {
-    alert("Voice recording feature is under development.");
-})
+        // Display chatbot's response
+        addMessageToChat("bot", data.response);
+    } catch (error) {
+        console.error("Chatbot Error:", error);
+        addMessageToChat("bot", "Sorry, I couldn't process your message. Please try again.");
+    }
+}
+
+// Handle Image Upload
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        addMessageToChat("user", "[Image uploaded]");
+        addMessageToChat("image", `<img src="${reader.result}" alt="Uploaded Image" class="chat-image">`);
+    };
+    reader.readAsDataURL(file);
+}
+
+// Record Voice (Placeholder for voice functionality)
+function recordVoice() {
+    // Placeholder: Implement voice recording functionality here
+    alert("Voice recording functionality is under development.");
+    }
