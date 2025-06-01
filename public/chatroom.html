@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatroom - StreamMe</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>Chatroom - Music Web</title>
+    <link rel="stylesheet" href="./css/chatroom.css">
 </head>
 <body>
-    <header>
-        <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+    <!-- Chatroom Header -->
+    <header class="chatroom-header">
+        <div class="header-content">
+            <div class="logo">🎵 Music Web</div>
+            <div class="user-info">
+                <span id="userName">Hello, <span id="userDisplayName"></span></span>
+            </div>
+        </div>
     </header>
-    <main>
-        <div class="chatroom">
-            <h1>Chatroom</h1>
-            <!-- Chat Messages Section -->
-            <div id="chatMessages" class="chat-messages"></div>
 
-            <!-- Image Upload -->
-            <input type="file" id="imageUpload" accept="image/*">
-
-            <!-- Voice Recording Button -->
-            <button id="recordBtn">🎤 Record Voice</button>
-
+    <!-- Chat Container -->
+    <main class="chat-container">
+        <div class="chat-history" id="chatHistory">
+            <!-- Chat messages will be dynamically inserted here -->
+        </div>
+        <div class="chat-input-container">
             <!-- Message Input -->
-            <textarea id="messageInput" placeholder="Type your message... Use '@bot' for chatbot"></textarea>
-
+            <textarea
+                id="messageInput"
+                class="chat-input"
+                placeholder="Type your message... Use '@bot' to chat with the bot"
+            ></textarea>
             <!-- Send Message Button -->
-            <button id="sendMessageBtn">Send</button>
+            <button id="sendMessageBtn" class="send-btn">Send</button>
         </div>
     </main>
+
+    <!-- Chatroom Footer -->
+    <footer class="chatroom-footer">
+        <p>Built with 💙 by heisbroken ✍️</p>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="./js/chatroom.js"></script>
 </body>
-    </html
+</html>
