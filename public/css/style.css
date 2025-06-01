@@ -116,7 +116,8 @@ body {
 
 .dev-credit {
     position: absolute;
-    bottom: 20px justify-content: space-between;
+    bottom: 20px;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -141,7 +142,18 @@ body {
 
 .search-input {
     flex: 1;
-    padding`
+    padding: 0.8rem;
+    border: 1px solid #333;
+    border-radius: 25px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #00ffff;
 }
 
 /* Chatroom */
@@ -183,7 +195,7 @@ body {
     margin-top: 1rem;
 }
 
-#chatInput {
+.chat-input {
     flex: 1;
     padding: 0.8rem;
     border: 1px solid #333;
@@ -195,7 +207,7 @@ body {
     transition: all 0.3s ease;
 }
 
-#chatInput:focus {
+.chat-input:focus {
     border-color: #00ffff;
 }
 
@@ -213,4 +225,14 @@ button[type="submit"] {
 button[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+}
+
+/* Footer */
+.chatroom-footer {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #333;
 }
