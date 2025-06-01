@@ -22,12 +22,14 @@ const randomSearchTerms = [
 // Search YouTube using the API
 async function searchYouTube(query) {
     try {
+        loadingIndicator.style.display = 'block'; // Show loading indicator
         const searchUrl = `${SEARCH_API}?q=${encodeURIComponent(query)}&apikey=${API_KEY}`;
         
         const response = await fetch(searchUrl);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
         if (data && data.items && Array.isArray(data.items)) {
             return data.items.map((item, index) => ({
                 videoId: item.url ? item.url.split('v=')[1]?.split('&')[0] : `video-${index}`,
@@ -41,7 +43,10 @@ async function searchYouTube(query) {
             return [];
         }
     } catch (error) {
-        throw error;
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
+        console.error('Error fetching search results:', error);
+        alert('Failed to fetch search results. Please try again later.');
+        return [];
     }
 }
 
@@ -57,7 +62,7 @@ function extractAuthorFromTitle(title) {
 
 // Display search results
 function displayResults(results) {
-    resultsGrid.innerHTML = '';
+    resultsGrid.innerHTML = ''; // Clear previous results
     results.forEach((result) => {
         const card = document.createElement('div');
         card.className = 'result-card';
@@ -75,16 +80,36 @@ function displayResults(results) {
 
 // Download MP3
 async function downloadMP3(url, title) {
-    const response = await fetch(`${MP3_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
-    const data = await response.json();
-    window.open(data.download_url, '_blank');
+    try {
+        const response = await fetch(`${MP3_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        if (data.download_url) {
+            window.open(data.download_url, '_blank');
+        } else {
+            alert('Failed to fetch MP3 download link.');
+        }
+    } catch (error) {
+        console.error('Error downloading MP3:', error);
+        alert('Failed to download MP3. Please try again later.');
+    }
 }
 
 // Download Video
 async function downloadVideo(url, title) {
-    const response = await fetch(`${VIDEO_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
-    const data = await response.json();
-    window.open(data.download_url, '_blank');
+    try {
+        const response = await fetch(`${VIDEO_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        if (data.download_url) {
+            window.open(data.download_url, '_blank');
+        } else {
+            alert('Failed to fetch video download link.');
+        }
+    } catch (error) {
+        console.error('Error downloading video:', error);
+        alert('Failed to download video. Please try again later.');
+    }
 }
 
 // Initialize random content on startup
@@ -93,4 +118,14 @@ setTimeout(() => {
     mainContent.classList.add('visible');
     const randomTerm = randomSearchTerms[Math.floor(Math.random() * randomSearchTerms.length)];
     searchYouTube(randomTerm).then(displayResults);
-}, 3000)
+}, 3000);
+
+// Handle Search Button Click
+searchBtn.addEventListener('click', () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+        alert('Please enter a search query.');
+        return;
+    }
+    searchYouTube(query).then(displayResults);
+});
