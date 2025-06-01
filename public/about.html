@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About StreamMe | Discover & Enjoy Music</title>
+    <style>
+        /* ✅ Global Styles */
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #00aaff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ✅ Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #1a1a1a;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        .navbar img {
+            width: 45px;
+            height: 45px;
+        }
+
+                   display: flex;
+            gap: 15px;
+        }
+
+        .navbar button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: #0055ff;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .navbar button:hover {
+            background: #0088ff;
+        }
+
+        /* ✅ Main Section */
+        .section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #00ffff;
+        }
+
+        .section p {
+            margin: 10px 0;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #dddddd;
+        }
+
+        .section .button {
+            margin: 20px 10px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #00aaff, #0055ff);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .section .button:hover {
+            background: linear-gradient(45deg, #00ffff, #0088ff);
+            transform: scale(1.05);
+        }
+
+        /* ✅ Features Section */
+        .features {
+            background: #1a1a1a;
+            padding: 50px 20px;
+        }
+
+        .features h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #00aaff;
+        }
+
+        .features ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .features li {
+            margin: 10px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .features li::before {
+            content: "✔";
+            color: #00ff00;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* ✅ Developers Section */
+        .developers {
+            background: #0e0e0e;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .developers h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ff00ff;
+        }
+
+        .developers p {
+            font-size: 18px;
+            color: #dddddd;
+        }
+
+        /* ✅ Footer */
+        footer {
+            margin-top: 50px;
+            padding: 15px;
+            background-color: #1a1a1a;
+            font-size: 14px;
+            text-align: center;
+            color: #dddddd;
+            border-top: 1px solid #333333;
+        }
+    </style>
+</head>
+<body>
+
+    ✅ Header Section -->
+    <header>
+        <nav class="navbar">
+            <h1>
+                <img src="/static/images/logo.png" alt="StreamMe Logo"> StreamMe 🎶
+            </h1>
+            <div class="nav-links">
+                <a href="/">🏠 Home</a>
+                <a href="/faq">❔ FAQ</a>
+                <a href="/contact">📩 Contact</a>
+                <a href="/about">ℹ️ About</a>
+                <a href="https://portfolio-neaterry6s-projects.vercel.app/" target="_blank">🌐 Portfolio</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ✅ About Section -->
+    <main>
+        <section class="section">
+            <h2>Welcome to StreamMe</h2>
+            <p>StreamMe is your ultimate destination for discovering, enjoying, and sharing music and videos effortlessly.</p>
+            <p>With StreamMe, we bring you a seamless streaming experience, including AI-powered search, real-time chat, and interactive playlists.</p>
+            <button class="button" onclick="window.location.href='/audio'">🎵 Explore Audio</button>
+            <button class="button" onclick="window.location.href='/video'">🎬 Explore Videos</button>
+        </section>
+
+        <!-- ✅ Features Section -->
+        <section class="features">
+            <h3>Why Choose StreamMe?</h3>
+            <ul>
+                <li>🎵 Explore and play millions of songs and videos.</li>
+                <li>💬 Real-time chatroom to connect with other music lovers.</li>
+                <li>🔍 AI-powered search for finding your favorite content effortlessly.</li>
+                <li>📝 View lyrics while playing your favorite songs.</li>
+                <li>🎧 Download MP3 or MP4 files for offline enjoyment.</li>
+                <li>📜 Create and share custom playlists.</li>
+                <li>🌐 Beautiful, responsive design compatible with all devices.</li>
+            </ul>
+        </section>
+
+        <!-- ✅ Developers Section -->
+        <section class="developers">
+            <h3>Meet the Developers</h3>
+            <p>StreamMe is built with ❤️ by <strong>Neaterry6</strong> and contributors.</p>
+            <p>Check out my portfolio for more exciting projects: 
+                <a href="https://portfolio-neaterry6s-projects.vercel.app/" target="_blank">View Portfolio</a>
+            </p>
+        </section>
+    </main>
+
+    <!-- ✅ Footer -->
+    <footer>
+        <p>🚀 Powered by <strong>StreamMe</strong> | Enjoy the music!</p>
+        <p>Check out the source code: 
+            <a href="https://github.com/Neaterry6/Music-web" target="_blank">GitHub Repository</a>
+        </p>
+    </footer>
+
+</body>
+</html>
