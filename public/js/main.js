@@ -11,6 +11,7 @@ const resultsGrid = document.getElementById('resultsGrid');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const welcomeSection = document.getElementById('welcomeSection');
 
+
 // Updated random search terms for 2025
 const randomSearchTerms = [
     // Nigerian trending songs
@@ -67,6 +68,12 @@ const randomSearchTerms = [
     'Tyla Water Remix ft Tems Ayra Starr'
 ];
 
+// Ensure API_KEY is present
+if (!API_KEY) {
+    alert('API Key is missing. Please update the script with a valid API key.');
+    throw new Error('API Key is missing.');
+}
+
 // Search YouTube using the API
 async function searchYouTube(query) {
     try {
@@ -120,45 +127,7 @@ function displayResults(results) {
             <div class="result-title">${result.title}</div>
             <div class="result-author">By: ${result.author}</div>
             <div class="result-duration">Duration: ${result.duration}</div>
-            <button class="play-btn" onclick="redirectToPlay('${result.url}', '${result.title}', '${result.type}')">▶️ Play</button>
-            <button class="download-btn mp3-btn" onclick="downloadMP3('${result.url}', '${result.title}')">🎵 Download MP3</button>
-            <button class="download-btn video-btn" onclick="downloadVideo('${result.url}', '${result.title}')">🎬 Download Video</button>
-        `;
-        resultsGrid.appendChild(card);
-    });
-}
-
-// Redirect to play.html with media details
-function redirectToPlay(url, title, type) {
-    const mediaType = type === "video/mp4" ? "video" : "audio";
-    const playUrl = `play.html?type=${mediaType}&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
-    window.location.href = playUrl;
-}
-
-// Download MP3
-async function downloadMP3(url, title) {
-    try {
-        const response = await fetch(`${MP3_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        if (data.download_url) {
-            window.open(data.download_url, '_blank');
-        } else {
-            alert('Failed to fetch MP3 download link.');
-        }
-    } catch (error) {
-        console.error('Error downloading MP3:', error);
-        alert('Failed to download MP3. Please try again later.');
-    }
-}
-
-// Download Video
-async function downloadVideo(url, title) {
-    try {
-        const response = await fetch(`${VIDEO_API}?url=${encodeURIComponent(url)}&apikey=${API_KEY}`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
-        if (data.download_url) {
+            <button class="play-btn" onclick="redirectToPlay('${result.urldata.download_url) {
             window.open(data.download_url, '_blank');
         } else {
             alert('Failed to fetch video download link.');
