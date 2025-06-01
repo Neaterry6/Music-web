@@ -11,12 +11,60 @@ const resultsGrid = document.getElementById('resultsGrid');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const welcomeSection = document.getElementById('welcomeSection');
 
-// Random search terms for initial display
+// Updated random search terms for 2025
 const randomSearchTerms = [
-    'NF', 'Eminem', 'Drake', 'Taylor Swift', 
-    'Ed Sheeran', 'Billie Eilish', 'The Weeknd', 
-    'Ariana Grande', 'Post Malone', 'Dua Lipa',
-    'trending music 2024', 'top hits', 'new songs'
+    // Nigerian trending songs
+    'Asake Only Me',
+    'Rema Ravage',
+    'Davido Flex My Soul',
+    'Wizkid Energy Remix',
+    'Omah Lay Hello Hello',
+    'Fireboy DML Pressure',
+    'Ayra Starr Commas',
+    'Tems Forever Interlude',
+    'Zinoleesky Personal 2025',
+    'Seyi Vibez Crown Of Glory',
+    'Kizz Daniel Show You Off',
+    'BNXN RMD ft Ruger',
+    'Victony Stamina 2025',
+    'Joeboy Shine On Me',
+    'Mayorkun Low Key',
+    'Tiwa Savage Water & Garri Soundtrack',
+    'Odumodublvck Bulldozer',
+    'Portable Ologo Forever',
+    'Mohbad Blessing Me Tribute',
+    'Pheelz Finesse Reloaded',
+    'Reekado Banks Jeje Love',
+    'Bella Shmurda Level Up',
+    'Patoranking Higher Vibes',
+    'Spyro Only Fine Girl Remix',
+    'Skales Koni Koni Love',
+    // International trending songs
+    'Burna Boy Bad Since 97 Deluxe',
+    'Drake Summer Diaries',
+    'The Weeknd Angel’s Cry',
+    'Central Cee Famous 2025',
+    'Future Metro Boomin Toxic Heart',
+    'Travis Scott Intergalactic',
+    'Doja Cat Raw Energy',
+    'Chris Brown Back 2 Sleep 2025',
+    'Nicki Minaj Pink Friday 3 Reloaded',
+    'Post Malone Golden Days',
+    'Adele Only Us',
+    'Lil Durk No Love Lost',
+    'Kanye West Ty Dolla $ign Vultures 2',
+    'Olivia Rodrigo Midnight Tears',
+    'Dua Lipa Houdini',
+    'Ed Sheeran Saltwater 2025 Edition',
+    'Rihanna Comeback Single',
+    'Latto Big Energy Reloaded',
+    'J Hus Victory Lap',
+    'Lil Baby Hard 2 Trust',
+    'Stormzy Crown 2.0',
+    'Sam Smith Lighthouse',
+    'Metro Boomin 21 Savage Savage World',
+    'Ice Spice Princess Peach',
+    'Tyla Water Remix ft Tems Ayra Starr'
 ];
 
 // Search YouTube using the API
@@ -37,7 +85,8 @@ async function searchYouTube(query) {
                 author: extractAuthorFromTitle(item.title) || 'Unknown Artist',
                 thumbnail: item.thumbnail || 'https://via.placeholder.com/480x360?text=No+Image',
                 duration: item.duration || 'Unknown',
-                url: item.url || ''
+                url: item.url || '',
+                type: item.type || 'video/mp4' // Default type to video
             }));
         } else {
             return [];
@@ -71,11 +120,19 @@ function displayResults(results) {
             <div class="result-title">${result.title}</div>
             <div class="result-author">By: ${result.author}</div>
             <div class="result-duration">Duration: ${result.duration}</div>
+            <button class="play-btn" onclick="redirectToPlay('${result.url}', '${result.title}', '${result.type}')">▶️ Play</button>
             <button class="download-btn mp3-btn" onclick="downloadMP3('${result.url}', '${result.title}')">🎵 Download MP3</button>
             <button class="download-btn video-btn" onclick="downloadVideo('${result.url}', '${result.title}')">🎬 Download Video</button>
         `;
         resultsGrid.appendChild(card);
     });
+}
+
+// Redirect to play.html with media details
+function redirectToPlay(url, title, type) {
+    const mediaType = type === "video/mp4" ? "video" : "audio";
+    const playUrl = `play.html?type=${mediaType}&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
+    window.location.href = playUrl;
 }
 
 // Download MP3
