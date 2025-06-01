@@ -1,8 +1,9 @@
 {
   "version": 2,
+  "name": "streamme",
   "builds": [
     {
-      "src": "api/**/*.js",
+      "src": "server.js",
       "use": "@vercel/node"
     },
     {
@@ -13,10 +14,19 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
-  ]
+  ],
+  "env": {
+    "API_KEY": "a0ebe80e-bf1a-4dbf-8d36-6935b1bfa5ea",
+    "USER_ID": "1268"
+  },
+  "devCommand": "npm run dev",
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "public",
+  "framework": "node"
+}
