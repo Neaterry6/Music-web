@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamMe - Music & Videos</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="glitch-text" data-text="StreamMe">StreamMe</div>
+        <div class="loading-spinner"></div>
+        <div class="dev-credit">Powered by StreamMe</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+            <nav>
+                <a href="chatroom.html">Chatroom</a>
+                <a href="profile.html">Profile</a>
+            </nav>
+        </header>
+        <main>
+            <h1>Welcome to StreamMe</h1>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search for music or videos...">
+                <button id="searchBtn">Search</button>
+            </div>
+            <div id="welcomeSection">
+                <p>Discover trending music and videos!</p>
+            </div>
+            <div id="loadingIndicator" style="display: none;"></div>
+            <div id="resultsGrid"></div>
+        </main>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+              </html
