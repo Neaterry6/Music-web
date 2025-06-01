@@ -3,28 +3,39 @@ const profileForm = document.getElementById("profileForm");
 profileForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const dpInput = document.getElementById("dp");
-    const dpFile = dpInput.files[0];
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    if (!name || !dpFile) {
-        alert("Please fill in all fields.");
+    if (!email || !password) {
+        alert("Please fill in both email and password fields.");
         return;
     }
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("dp", dpFile);
-
     try {
-        const response = await fetch("/api/profile", {
+        const response = await fetch("/api/authenticate", {
             method: "POST",
-            body: formData,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
         });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to authenticate.");
+        }
+
         const data = await response.json();
-        alert(`Profile created!\nName: ${data.name}\nUser ID: ${data.uid}`);
+        alert(`Welcome back, ${data.name}!\nYour IIF: ${data.iif}`);
+        displayProfile(data); // Display the profile info
     } catch (error) {
-        console.error("Profile Creation Error:", error);
-        alert("Failed to create profile. Please try again.");
+        console.error("Authentication Error:", error);
+        alert(error.message || "An error occurred during authentication.");
     }
-})
+});
+
+function displayProfile(user) {
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userEmail").textContent = user.email;
+    document.getElementById("userIIF").textContent = `IIF Number: ${user.iif}`;
+}
