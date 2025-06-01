@@ -15,10 +15,163 @@ const videoPlayer = document.getElementById('videoPlayer');
 
 // Updated random search terms
 const randomSearchTerms = [
-    'Asake Only Me', 'Rema Ravage', 'Davido Flex My Soul', 'Wizkid Energy Remix',
-    'Omah Lay Hello Hello', 'Fireboy DML Pressure', 'Ayra Starr Commas',
-    'Tems Forever Interlude', 'Burna Boy Bad Since 97 Deluxe', 'Drake Summer Diaries',
-    'The Weeknd Angel’s Cry', 'Central Cee Famous 2025', 'Future Toxic Heart'
+  // Davido
+  'Davido Flex My Soul', 'Davido Away Official Video', 'Davido No Competition ft Asake',
+  'Davido For The Road Live Performance', 'Davido Unavailable Remix ft Musa Keys',
+
+  // Wizkid
+  'Wizkid Energy Remix ft Tems', 'Wizkid One Love Afro Edition', 'Wizkid Bad To Me Live',
+  'Wizkid Frames Who’s Gonna Know', 'Wizkid Balance Official Video',
+
+  // Asake
+  'Asake Only Me', 'Asake 2:30 Live at Afro Nation', 'Asake Sunshine Bliss',
+  'Asake Yoga Deluxe', 'Asake Terminator Reloaded',
+
+  // Fireboy DML
+  'Fireboy DML Obaa Sima', 'Fireboy DML Peru Piano Version', 'Fireboy DML Playboy Deluxe',
+  'Fireboy DML Pressure Official Video', 'Fireboy DML Change Live',
+
+  // Ruger
+  'Ruger Kristy', 'Ruger Jonzing Boy', 'Ruger Tour Mixtape 2025', 'Ruger Bounce Unplugged',
+  'Ruger Dear Ex Official Video',
+
+  // Omah Lay
+  'Omah Lay Hello Hello', 'Omah Lay Reason Official Video', 'Omah Lay Soso USA Tour',
+  'Omah Lay Temptations Live', 'Omah Lay Imagine',
+
+  // Ayra Starr
+  'Ayra Starr Commas', 'Ayra Starr Rush Remix', 'Ayra Starr Control', 'Ayra Starr Fashion Killer Acoustic',
+
+  // Burna Boy
+  'Burna Boy Higher', 'Burna Boy City Boys Deluxe', 'Burna Boy Last Last 2025 Remix', 'Burna Boy Party Animal',
+
+  // Seyi Vibez
+  'Seyi Vibez Different Pattern', 'Seyi Vibez Karma', 'Seyi Vibez Billion Dollar',
+
+  // Zinoleesky
+  'Zinoleesky Sakara', 'Zinoleesky Personal', 'Zinoleesky Yan Yan',
+
+  // Mohbad (RIP but tribute/legacy releases)
+  'Mohbad Beast & Peace', 'Mohbad Feelings', 'Mohbad Peace II',
+
+  // Portable (if you want street vibes)
+  'Portable Dodondawa', 'Portable Ogundabede', 'Portable Neighbourhood',
+
+  // BNXN (Buju)
+  'BNXN Romeo Must Die ft Ruger', 'BNXN Pray', 'BNXN Sweet Tea', 'BNXN Say My Name',
+
+  // Odumodublvck
+  'Odumodublvck Blood On The Dance Floor', 'Odumodublvck Declan Rice II', 'Odumodublvck Techno Cruise',
+
+  // Victony
+  'Victony OHEMA', 'Victony Soweto Deluxe', 'Victony Holy Father Acoustic',
+
+  // Others
+  'Kizz Daniel Too Busy To Be Bae', 'Mayorkun Lowkey!', 'Lojay Arizona', 'Carter Efe Ololade Mi Carter',
+  'Young Jonn Aquafina', 'Pheelz Go Low', 'Bella Shmurda Loner', 'Mr Eazi Advice' "Asake - Only Me",
+    "Rema - Ravage",
+    "Davido - Flex My Soul",
+    "Wizkid - Energy Remix",
+    "Omah Lay - Hello Hello",
+    "Fireboy DML - Pressure",
+    "Ayra Starr - Commas",
+    "Tems - Forever Interlude",
+    "Burna Boy - Tested, Approved & Trusted",
+    "Joeboy - Osadebe",
+    "Zinoleesky - Sakara",
+    "Seyi Vibez - Different Patterns",
+    "BNXN - Romeo Must Die ft Ruger",
+    "Pheelz - Go Low",
+    "Kizz Daniel - Twe Twe",
+    "Oxlade - Intoxycated",
+    "Bella Shmurda - Loner",
+    "Mohbad - Ask About Me",
+    "Tyla - Truth Or Dare",
+    "Shallipopi - Elon Musk Remix",
+    "Libianca - People",
+    "Ruger - Kristy",
+    "Victony - Ohema",
+    "CKay - Capture My Soul",
+    "Mayorkun - Lowkey!",
+
+    // US / UK 🇺🇸 🇬🇧
+    "Drake - Family Matters",
+    "21 Savage - Should've Worn A Bonnet",
+    "Nicki Minaj - Pink Friday Girls",
+    "Future - Toxic Heart",
+    "Travis Scott - FE!N",
+    "Doja Cat - Paint The Town Red",
+    "SZA - Saturn",
+    "Post Malone - Pour Me A Drink",
+    "The Weeknd - Angels Cry",
+    "Lil Durk - All My Life ft J Cole",
+    "Metro Boomin - Too Many Nights",
+    "Kendrick Lamar - Euphoria",
+    "Ice Spice - Think U The Shit",
+    "Latto - Sunday Service",
+    "Ariana Grande - We Can't Be Friends",
+    "Bryson Tiller - Whatever She Wants",
+    "Chris Brown - Nightmares",
+    "Rod Wave - Checkmate",
+    "Central Cee - Band4Band",
+    "Stormzy - Toxic Trait",
+    "Dave - Sprinter ft Central Cee",
+    "J Hus - Who Told You",
+    "Ed Sheeran - American Town",
+    "PinkPantheress - Nice To Meet You",
+
+    // SA / Ghana / East Africa 🇿🇦 🇬🇭 🇰🇪
+    "Uncle Waffles - Yahyuppiyah",
+    "Kabza De Small - Xola",
+    "Focalistic - Ka Lekeke",
+    "Black Sherif - Oh Paradise",
+    "Stonebwoy - Life & Money",
+    "Sarkodie - Otan",
+    "King Promise - Terminator",
+    "Camidoh - Brown Skin Girl",
+    "Diamond Platnumz - My Baby",
+    "Rayvanny - Forever",
+    "Harmonize - Single Again",
+    "Mbosso - Amepotea",
+    "Zuchu - Napambana",
+
+    // Caribbean / Afro-Fusion / Latin 🇯🇲 🇨🇴 🇧🇷
+    "Popcaan - Bend It Over",
+    "Vybz Kartel - Gaza Forever",
+    "Sean Paul - Summa Hot",
+    "J Balvin - Morado",
+    "Maluma - Coco Loco",
+    "Anitta - Bellakeo",
+    "Rauw Alejandro - Dime Quien???",
+    "Bad Bunny - Monaco",
+    "Karol G - Provenza",
+
+    // Viral / TikTok Hits 🌍
+    "Tyla - Water",
+    "Odumodublvck - Declan Rice",
+    "Shallipopi - Cast ft Odumodublvck",
+    "Victor Thompson - This Year",
+    "Victony - Soweto Remix",
+    "Ice Prince - Bank Alert",
+    "Mr Eazi - Advice",
+    "Reekado Banks - Feel Different",
+    "Odumodublvck - Blood On The Dance Floor",
+    "Tee Dollar - Alhamdulillah",
+    "Bloody Civilian - Mad Apology",
+    "Seyi Vibez - Hat-trick",
+    "Portable - Dodondawa",
+
+    // Alt / Pop / Other 🌏
+    "Billie Eilish - Lunch",
+    "Olivia Rodrigo - Obsessed",
+    "Taylor Swift - Fortnight",
+    "Tate McRae - Greedy",
+    "Dua Lipa - Houdini",
+    "Sabrina Carpenter - Espresso",
+    "Charli XCX - 360",
+    "Adele - Easy On Me",
+    "Hozier - Too Sweet",
+    "A Boogie Wit Da Hoodie - No 808s"
 ];
 
 // Ensure API_KEY is present
