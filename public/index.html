@@ -2,82 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StreamMe - Music & Videos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
-    <div class="glitch-text" data-text="StreamMe">StreamMe</div>
+    <h1 class="glitch-text">StreamMe.ID</h1>
     <div class="loading-spinner"></div>
-    <div class="dev-credit">Powered by StreamMe ID</div>
+    <p class="dev-credit">Powered by StreamMe ID</p>
+  </div>
+
+  <!-- Auth Page (Login / Signup) -->
+  <div class="auth-page" id="authPage">
+    <div class="auth-card">
+      <h2>Welcome to <span>StreamMe</span></h2>
+      <p>Sign up or log in to start streaming 🔥</p>
+      <input type="text" placeholder="Username" id="usernameInput">
+      <input type="password" placeholder="Password" id="passwordInput">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn" class="secondary-btn">Sign Up</button>
+    </div>
   </div>
 
   <!-- Side Menu -->
   <div class="side-menu" id="sideMenu">
     <button class="close-btn" id="closeMenu">&times;</button>
     <nav>
-      <a href="./index.html">🏠 Home</a>
-      <a href="./chatroom.html">💬 Chatroom</a>
-      <a href="./profile.html">👤 Profile</a>
-      <a href="./play.html">▶️ Playback</a>
-      <a href="./lyrics.html">🎶 Lyrics</a>
-      <a href="./about.html">💬 about</a>
+      <a href="#">🏠 Home</a>
+      <a href="#">💬 Chatroom</a>
+      <a href="#">👤 Profile</a>
+      <a href="#">▶️ Playback</a>
+      <a href="#">🎶 Lyrics</a>
+      <a href="#">ℹ️ About</a>
     </nav>
     <button id="toggleTheme">🌓 Toggle Theme</button>
   </div>
 
-  <!-- Main Content -->
+  <!-- Main App Content -->
   <div class="main-content" id="mainContent">
     <header>
       <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
-      
-      <!-- Menu Button -->
       <button id="menuButton">☰</button>
-      
-      <nav>
-        <a href="./index.html">Home</a>
-        <a href="./chatroom.html">Chatroom</a>
-        <a href="./profile.html">Profile</a>
-        <a href="./play.html">Playback</a>
-        <a href="./lyrics.html">Lyrics</a>
-      </nav>
     </header>
 
     <main>
-      <h1>Welcome to StreamMe</h1>
+      <h1>Welcome to StreamMe 🎶🔥</h1>
       <div class="search-container">
         <input type="text" id="searchInput" placeholder="Search for music or videos...">
         <button id="searchBtn">Search</button>
       </div>
-      <div id="welcomeSection">
-        <p>Discover trending music and videos!</p>
-      </div>
-      <div id="loadingIndicator" style="display: none;"></div>
       <div id="resultsGrid"></div>
     </main>
   </div>
-   
-<script>
+
+  <script>
+    // Loading screen hide
+    window.addEventListener('load', () => {
+      document.getElementById('loadingScreen').style.display = 'none';
+    });
+
     // Menu toggle
     const menuButton = document.getElementById('menuButton');
     const sideMenu = document.getElementById('sideMenu');
     const closeMenu = document.getElementById('closeMenu');
 
     menuButton.addEventListener('click', () => {
-      sideMenu.style.display = 'block';
+      sideMenu.style.left = '0';
     });
-
     closeMenu.addEventListener('click', () => {
-      sideMenu.style.display = 'none';
+      sideMenu.style.left = '-250px';
     });
 
     // Theme toggle
     const toggleTheme = document.getElementById('toggleTheme');
     toggleTheme.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
+    });
+
+    // Login Logic
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.addEventListener('click', () => {
+      const username = document.getElementById('usernameInput').value;
+      if (username) {
+        document.getElementById('authPage').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+      } else {
+        alert('Enter username to proceed.');
+      }
+    });
+
+    // Fake signup handler
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      alert('Signup successful — Now login.');
     });
   </script>
 </body>
