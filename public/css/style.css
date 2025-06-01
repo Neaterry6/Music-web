@@ -142,3 +142,75 @@ body {
 .search-input {
     flex: 1;
     padding`
+}
+
+/* Chatroom */
+.chatroom {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid #333;
+    margin: 2rem 0;
+    max-width: 800px;
+    height: 400px;
+    overflow-y: auto;
+    margin: 0 auto;
+}
+
+.message {
+    margin: 1rem 0;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message.user {
+    background: #00ffff;
+    color: #000;
+    align-self: flex-end;
+}
+
+.message.bot {
+    background: #333;
+    color: #fff;
+    align-self: flex-start;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#chatInput {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #333;
+    border-radius: 25px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#chatInput:focus {
+    border-color: #00ffff;
+}
+
+button[type="submit"] {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(45deg, #00ffff, #0099cc);
+    border: none;
+    border-radius: 25px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+}
