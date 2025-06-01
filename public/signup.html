@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - StreamMe</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Sign Up</h1>
+        <form id="signupForm" enctype="multipart/form-data">
+            <!-- Username -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Password -->
+            <div classinput type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="form-group">
+                <label for="profilePicture">Profile Picture</label>
+                <img id="profilePreview" src="./assets/default-profile.png" alt="Default Profile Picture">
+                <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-primary">Sign Up</button>
+            <p>Already have an account? <a href="./login.html">Log In</a></p>
+        </form>
+    </div>
+
+    <script>
+        // Preview Profile Picture Before Upload
+        const profilePictureInput = document.getElementById('profilePicture');
+        const profilePreview = document.getElementById('profilePreview');
+
+        profilePictureInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profilePreview.src = e.target.result; // Update the profile picture preview
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle Form Submission
+        const signupForm = document.getElementById('signupForm');
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(signupForm);
+            try {
+ const response = await fetch('/signup', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Sign up successful! Welcome to StreamMe!');
+                    // Redirect to login or profile page
+                    window.location.href = './login.html';
+                } else {
+                    alert('Failed to sign up. Please check your details and try again.');
+                }
+            } catch (error) {
+                console.error('Error during sign up:', error);
+                alert('An error occurred while signing up. Please try again later.');
+            }
+        });
+    </script>
+</body>
+</html>
