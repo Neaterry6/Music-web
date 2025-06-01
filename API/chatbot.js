@@ -1,22 +1,50 @@
-const fetch = require("node-fetch");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
 
-export default async function handler(req, res) {
-    if (req.method !== "GET") {
-        return res.status(405).json({ error: "Method not allowed" });
+chatForm.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent form submission reload
+
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) {
+        alert("Please enter a message.");
+        return;
     }
 
-    const { ask, uid, imageUrl } = req.query;
-    const API_KEY = process.env.API_KEY;
-    const CHATBOT_API = `https://kaiz-apis.gleeze.com/api/gpt-4.1?ask=${encodeURIComponent(
-        ask
-    )}&uid=${uid}&imageUrl=${encodeURIComponent(imageUrl || "")}&apikey=${API_KEY}`;
+    // Display user's message in the chat
+    addMessageToChat("user", userMessage);
 
-    try {
-        const response = await fetch(CHATBOT_API);
-        const data = await response.json();
-        res.status(200).json(data);
-    } catch (error) {
-        console.error("Chatbot API Error:", error);
-        res.status(500).json({ error: "Failed to fetch chatbot response" });
+    // Check if the chatbot is tagged (e.g., @bot)
+    if (userMessage.includes("@bot")) {
+        try {
+            // Call the chatbot API
+            const response = await fetch(`/api/chatbot?ask=${encodeURIComponent(userMessage)}`, {
+                method: "GET",
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            // Display chatbot's response in the chat
+            addMessageToChat("bot", data.response);
+        } catch (error) {
+            console.error("Chatbot Error:", error);
+            addMessageToChat("bot", "Sorry, I couldn't process your message. Please try again.");
+        }
     }
-        
+
+    // Clear input field
+    chatInput.value = "";
+});
+
+function addMessageToChat(sender, message) {
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", sender);
+    messageElement.textContent = message;
+    chatMessages.appendChild(messageElement);
+
+    // Scroll to the bottom of the chat
+    chatMessages.scrollTop = chatMessages.scrollHeight;
