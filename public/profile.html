@@ -1,58 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - StreamMe</title>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamMe - Music & Videos</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="glitch-text" data-text="StreamMe">StreamMe</div>
+    <div class="loading-spinner"></div>
+    <div class="dev-credit">Powered by StreamMe</div>
+  </div>
+
+  <!-- Side Menu -->
+  <div class="side-menu" id="sideMenu">
+    <button class="close-btn" id="closeMenu">&times;</button>
+    <nav>
+      <a href="./index.html">🏠 Home</a>
+      <a href="./chatroom.html">💬 Chatroom</a>
+      <a href="./profile.html">👤 Profile</a>
+      <a href="./play.html">▶️ Playback</a>
+      <a href="./lyrics.html">🎶 Lyrics</a>
+    </nav>
+    <button id="toggleTheme">🌙 Toggle Theme</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
     <header>
-        <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+      <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+      
+      <!-- Menu Button -->
+      <button id="menuButton">☰</button>
+      
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./chatroom.html">Chatroom</a>
+        <a href="./profile.html">Profile</a>
+        <a href="./play.html">Playback</a>
+        <a href="./lyrics.html">Lyrics</a>
+      </nav>
     </header>
+
     <main>
-        <!-- Login Section -->
-        <section class="login-container">
-            <h1>Log In</h1>
-            <form id="profileForm">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Log In</button>
-            </form>
-        </section>
-
-        <!-- User Profile Section -->
-        <section class="profile-container" style="display: none;" id="profileSection">
-            <h1>Your Profile</h1>
-            <div class="profile-info">
-                <img src="./assets/default-avatar.png" alt="Profile Picture" id="profilePicture" class="profile-picture">
-                <div class="profile-details">
-                    <h2 id="userName">[Your Name]</h2>
-                    <p id="userEmail">[Your Email]</p>
-                    <p id="userIIF">IIF Number: [IIF]</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chat History Section -->
-        <section class="history-container" style="display: none;" id="chatHistorySection">
-            <h2>Chat History</h2>
-            <div id="chatHistory" class="chat-history">
-                <!-- Chat history will be populated dynamically -->
-            </div>
-        </section>
-
-        <!-- Last Searches Section -->
-        <section class="search-container" style="display: none;" id="lastSearchesSection">
-            <h2>Last Searches</h2>
-            <div id="lastSearches" class="last-searches">
-                <!-- Last searches will be populated dynamically -->
-            </div>
-        </section>
+      <h1>Welcome to StreamMe</h1>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for music or videos...">
+        <button id="searchBtn">Search</button>
+      </div>
+      <div id="welcomeSection">
+        <p>Discover trending music and videos!</p>
+      </div>
+      <div id="loadingIndicator" style="display: none;"></div>
+      <div id="resultsGrid"></div>
     </main>
-    <script src="./js/profile.js"></script>
+  </div>
+   
+<script>
+    // Menu toggle
+    const menuButton = document.getElementById('menuButton');
+    const sideMenu = document.getElementById('sideMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    menuButton.addEventListener('click', () => {
+      sideMenu.style.display = 'block';
+    });
+
+    closeMenu.addEventListener('click', () => {
+      sideMenu.style.display = 'none';
+    });
+
+    // Theme toggle
+    const toggleTheme = document.getElementById('toggleTheme');
+    toggleTheme.addEventListener </script>
 </body>
 </html>
