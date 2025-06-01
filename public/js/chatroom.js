@@ -5,80 +5,88 @@ const sendMessageBtn = document.getElementById("sendMessageBtn");
 const imageUpload = document.getElementById("imageUpload");
 const recordBtn = document.getElementById("recordBtn");
 
-sendMessageBtn.addEventListener("click", sendMessage);
-messageInput.addEventListener("keypress", (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-    }
-});
+// WebSocket for Real-Time Communication
+const socket = new WebSocket("ws://localhost:8080");
 
-imageUpload.addEventListener("change", handleImageUpload);
-recordBtn.addEventListener("click", recordVoice);
+// Listen for messages from the server
+socket.addEventListener("message", (event) => {
+    const data = JSON.parse(event.data);
+    addMessageToChat(data.sender, data.message, data.timestamp);
+});
 
 // Send Message
 function sendMessage() {
     const userMessage = messageInput.value.trim();
     if (!userMessage) return;
 
-    // Display user's message
-    addMessageToChat("user", userMessage);
+    const messageData = {
+        sender: "user",
+        message: userMessage,
+        timestamp: getCurrentTimestamp(),
+    };
 
-    // Check if the message includes @bot
-    if (userMessage.includes("@bot")) {
-        callChatbotAPI(userMessage);
-    }
+    // Send the message to the server
+    socket.send(JSON.stringify(messageData));
 
-    // Clear the input
+    // Add the message to the chat UI
+    addMessageToChat(messageData.sender, messageData.message, messageData.timestamp);
+
+    // Clear the input field
     messageInput.value = "";
 }
 
 // Add Message to Chat
-function addMessageToChat(sender, message) {
+function addMessageToChat(sender, message, timestamp) {
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container", sender);
+
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("message", sender);
     messageDiv.textContent = message;
-    chatMessages.appendChild(messageDiv);
+
+    const timestampDiv = document.createElement("div");
+    timestampDiv.classList.add("timestamp");
+    timestampDiv.textContent = timestamp;
+
+    messageContainer.appendChild(messageDiv);
+    messageContainer.appendChild(timestampDiv);
+    chatMessages.appendChild(messageContainer);
 
     // Scroll to the bottom of the chat
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Call Chatbot API
-async function callChatbotAPI(userMessage) {
-    try {
-        const response = await fetch(`/api/chatbot?ask=${encodeURIComponent(userMessage)}`, {
-            method: "GET",
-        });
-        const data = await response.json();
-
-        if (data.error) {
-            throw new Error(data.error);
-        }
-
-        // Display chatbot's response
-        addMessageToChat("bot", data.response);
-    } catch (error) {
-        console.error("Chatbot Error:", error);
-        addMessageToChat("bot", "Sorry, I couldn't process your message. Please try again.");
-    }
+// Get Current Timestamp
+function getCurrentTimestamp() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
 }
 
 // Handle Image Upload
-function handleImageUpload(event) {
+imageUpload.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
-        addMessageToChat("user", "[Image uploaded]");
-        addMessageToChat("image", `<img src="${reader.result}" alt="Uploaded Image" class="chat-image">`);
+        const messageData = {
+            sender: "user",
+            message: `[Image uploaded]`,
+            timestamp: getCurrentTimestamp(),
+        };
+
+        // Send the image upload message to the server
+        socket.send(JSON.stringify(messageData));
+
+        // Add image preview to chat
+        addMessageToChat("image", `<img src="${reader.result}" alt="Uploaded Image" class="chat-image">`, messageData.timestamp);
     };
     reader.readAsDataURL(file);
-}
+});
 
 // Record Voice (Placeholder for voice functionality)
-function recordVoice() {
-    // Placeholder: Implement voice recording functionality here
+recordBtn.addEventListener("click", () => {
     alert("Voice recording functionality is under development.");
-    }
+});
