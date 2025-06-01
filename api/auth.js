@@ -1,34 +1,35 @@
-const express = require("express");
-const router = express.Router();
+const fs = require('fs');
+const path = require('path');
 
-// Simulated database (replace with your actual database)
-const users = [
-    { email: "johndoe@example.com", password: "securePassword123", name: "John Doe", iif: "1234567890" },
-    { email: "janedoe@example.com", password: "password456", name: "Jane Doe", iif: "0987654321" },
-];
+const USERS_DB = path.join(__dirname, '../users.json');
 
-// Authentication endpoint
-router.post("/authenticate", (req, res) => {
-    const { email, password } = req.body;
+// Handle user registration
+module.exports.signup = (req, res) => {
+  const { username, email, password, profilePic } = req.body;
 
-    // Validate input
-    if (!email || !password) {
-        return res.status(400).json({ error: "Email and password are required." });
-    }
+  const users = JSON.parse(fs.readFileSync(USERS_DB, 'utf8'));
 
-    // Find user in the database
-    const user = users.find((u) => u.email === email && u.password === password);
+  if (users.find(user => user.email === email)) {
+    return res.status(400).json({ message: 'User already exists!' });
+  }
 
-    if (!user) {
-        return res.status(401).json({ error: "Invalid email or password." });
-    }
+  const newUser = { id: Date.now(), username, email, password, profilePic: profilePic || null };
+  users.push(newUser);
+  fs.writeFileSync(USERS_DB, JSON.stringify(users, null, 2));
 
-    // Send user data (excluding the password)
-    res.json({
-        name: user.name,
-        email: user.email,
-        iif: user.iif,
-    });
-});
+  res.status(201).json({ message: 'User registered successfully!' });
+};
 
-module.exports = router;
+// Handle user login
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  const users = JSON.parse(fs.readFileSync(USERS_DB, 'utf8'));
+  const user = users.find(user => user.email === email && user.password === password);
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials!' });
+  }
+
+  res.status(200).json({ message: 'Login successful!', user });
+};
