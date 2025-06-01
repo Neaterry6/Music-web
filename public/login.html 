@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StreamMe</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <!-- Email -->
+            <div">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    Remember Me
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-primary">Login</button>
+            <p>Don't have an account? <a href="./signup.html">Sign Up</a></p>
+        </form>
+    </div>
+
+    <script>
+        // Handle Form Submission
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(loginForm);
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers:Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: formData.get('email'),
+                        password: formData.get('password'),
+                        rememberMe: formData.get('rememberMe') ? true : false,
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Login successful! Redirecting to your dashboard...');
+                    // Redirect to dashboard or profile page
+                    window.location.href = './profile.html';
+                } else {
+                    alert('Invalid email or password. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('An error again later.');
+            }
+        });
+    </script>
+</body>
+</html>
