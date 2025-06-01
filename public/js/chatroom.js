@@ -8,10 +8,34 @@ const recordBtn = document.getElementById("recordBtn");
 // WebSocket for Real-Time Communication
 const socket = new WebSocket("ws://localhost:8080");
 
-// Listen for messages from the server
+// Set Username
+const username = prompt("Enter your username:") || "Anonymous";
+
+// WebSocket Event: Connection Opened
+socket.addEventListener("open", () => {
+    console.log("Connected to WebSocket server.");
+    addSystemMessage("You are connected to the chat!");
+});
+
+// WebSocket Event: Connection Error
+socket.addEventListener("error", (error) => {
+    console.error("WebSocket error:", error);
+    addSystemMessage("Error connecting to the chat server.");
+});
+
+// WebSocket Event: Connection Closed
+socket.addEventListener("close", () => {
+    addSystemMessage("Disconnected from the chat server.");
+});
+
+// WebSocket Event: Message Received
 socket.addEventListener("message", (event) => {
     const data = JSON.parse(event.data);
-    addMessageToChat(data.sender, data.message, data.timestamp);
+    if (data.type === "image") {
+        addImageToChat(data.sender, data.imageUrl, data.timestamp);
+    } else {
+        addMessageToChat(data.sender, data.message, data.timestamp);
+    }
 });
 
 // Send Message
@@ -20,7 +44,8 @@ function sendMessage() {
     if (!userMessage) return;
 
     const messageData = {
-        sender: "user",
+        type: "text",
+        sender: username,
         message: userMessage,
         timestamp: getCurrentTimestamp(),
     };
@@ -38,19 +63,61 @@ function sendMessage() {
 // Add Message to Chat
 function addMessageToChat(sender, message, timestamp) {
     const messageContainer = document.createElement("div");
-    messageContainer.classList.add("message-container", sender);
+    messageContainer.classList.add("message-container", sender === username ? "user" : "other");
+
+    const senderDiv = document.createElement("div");
+    senderDiv.classList.add("sender");
+    senderDiv.textContent = sender;
 
     const messageDiv = document.createElement("div");
-    messageDiv.classList.add("message", sender);
-    messageDiv.textContent = message;
+    messageDiv.classList.add("message");
+    messageDiv.innerHTML = message;
 
     const timestampDiv = document.createElement("div");
     timestampDiv.classList.add("timestamp");
     timestampDiv.textContent = timestamp;
 
+    messageContainer.appendChild(senderDiv);
     messageContainer.appendChild(messageDiv);
     messageContainer.appendChild(timestampDiv);
     chatMessages.appendChild(messageContainer);
+
+    // Scroll to the bottom of the chat
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Add Image to Chat
+function addImageToChat(sender, imageUrl, timestamp) {
+    const messageContainer = document.createElement("div");
+    messageContainer.classList.add("message-container", sender === username ? "user" : "other");
+
+    const senderDiv = document.createElement("div");
+    senderDiv.classList.add("sender");
+    senderDiv.textContent = sender;
+
+    const imageDiv = document.createElement("div");
+    imageDiv.classList.add("message");
+    imageDiv.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" class="chat-image">`;
+
+    const timestampDiv = document.createElement("div");
+    timestampDiv.classList.add("timestamp");
+    timestampDiv.textContent = timestamp;
+
+    messageContainer.appendChild(senderDiv);
+    messageContainer.appendChild(imageDiv);
+    messageContainer.appendChild(timestampDiv);
+    chatMessages.appendChild(messageContainer);
+
+    // Scroll to the bottom of the chat
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Add System Message
+function addSystemMessage(message) {
+    const systemMessage = document.createElement("div");
+    systemMessage.classList.add("system-message");
+    systemMessage.textContent = message;
+    chatMessages.appendChild(systemMessage);
 
     // Scroll to the bottom of the chat
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -71,9 +138,12 @@ imageUpload.addEventListener("change", (event) => {
 
     const reader = new FileReader();
     reader.onload = () => {
+        const imageUrl = reader.result;
+
         const messageData = {
-            sender: "user",
-            message: `[Image uploaded]`,
+            type: "image",
+            sender: username,
+            imageUrl: imageUrl,
             timestamp: getCurrentTimestamp(),
         };
 
@@ -81,7 +151,7 @@ imageUpload.addEventListener("change", (event) => {
         socket.send(JSON.stringify(messageData));
 
         // Add image preview to chat
-        addMessageToChat("image", `<img src="${reader.result}" alt="Uploaded Image" class="chat-image">`, messageData.timestamp);
+        addImageToChat(username, imageUrl, messageData.timestamp);
     };
     reader.readAsDataURL(file);
 });
@@ -89,4 +159,12 @@ imageUpload.addEventListener("change", (event) => {
 // Record Voice (Placeholder for voice functionality)
 recordBtn.addEventListener("click", () => {
     alert("Voice recording functionality is under development.");
+});
+
+// Event Listener: Send Message on Button Click
+sendMessageBtn.addEventListener("click", sendMessage);
+
+// Event Listener: Send Message on Enter Key Press
+messageInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") sendMessage();
 });
