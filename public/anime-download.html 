@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>? Anime Downloader ?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    body {
+      background-color: #0f0f1c;
+      color: #eee;
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #f39c12;
+      margin-bottom: 20px;
+      font-size: 38px;
+      text-shadow: 0 0 8px #f39c12;
+    }
+    .instructions {
+      background: #1e1e30;
+      border: 2px solid #f39c12;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
+    }
+    .instructions h2 {
+      margin-top: 0;
+      color: #f39c12;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .instructions p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #ddd;
+    }
+    #search {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+    input {
+      padding: 14px;
+      width: 340px;
+      font-size: 20px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #1c1c2e;
+      color: #eee;
+    }
+    button {
+      padding: 14px 22px;
+      margin-left: 12px;
+      background-color: #f39c12;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #e67e22;
+      transform: scale(1.03);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+    .card {
+      background-color: #1e1e30;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h2 {
+      font-size: 22px;
+      margin: 15px 0 10px;
+      color: #f39c12;
+    }
+    .link-box {
+      background: #111;
+      padding: 10px;
+      border-radius: 8px;
+      word-break: break-all;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .copy-btn {
+      padding: 8px 14px;
+      background: #3498db;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .copy-btn:hover {
+      background: #2980b9;
+    }
+    .note {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🔥 Anime Magnet Downloader 🔥</h1>
+
+<div class="instructions">
+  <h2>📜 How To Download</h2>
+  <p>1️⃣ Search for your favorite anime by typing its name in the box below and clicking <strong>Search</strong>.</p>
+  <p>2️⃣ When results appear, click the <strong>Copy Magnet 🔗</strong> button to copy the download link.</p>
+  <p>3️⃣ Paste the magnet link into your preferred torrent client or a magnet link downloader site to start downloading the anime episodes or movies.</p>
+  <p>💡 Example: You can use <a href="https://webtor.io" target="_blank" style="color: #f39c12;">webtor.io</a> or your installed torrent app like uTorrent or BitTorrent.</p>
+</div>
+
+<div id="search">
+  <input type="text" id="query" placeholder="Enter anime title e.g Attack on Titan">
+  <button onclick="searchAnime()">Search</button>
+</div>
+
+<div class="grid" id="results"></div>
+
+<div class="note">Powered by your streamme id 😎</div>
+
+<script>
+  async function searchAnime() {
+    const query = document.getElementById('query').value.trim();
+    if (!query) return alert('Please enter an anime title');
+
+    const apiUrl = `https://anime-api-s4k8.onrender.com/download?query=${encodeURIComponent(query)}`;
+
+    try {
+      const res = await fetch(apiUrl, { headers: { "Accept": "application/json" } });
+      const data = await res.json();
+
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+
+      if (!data.download_links || data.download_links.length === 0) {
+        container.innerHTML = `<p style="text-align:center;">No results found for "${query}" 😢</p>`;
+        return;
+      }
+
+      data.download_links.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const titleText = item.title && item.title.trim() !== "" ? item.title : "Untitled Magnet";
+
+        card.innerHTML = `
+          <h2>${titleText}</h2>
+          <div class="link-box">${item.magnet_link}</div>
+          <button class="copy-btn" onclick="copyToClipboard(\`${item.magnet_link}\`)">Copy Magnet 🔗</button>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert('Failed to fetch results. Please try again later.');
+    }
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text)
+      .then(() => alert("Magnet link copied to clipboard! ✅"))
+      .catch(err => console.error("Copy failed", err));
+  }
+</script>
+
+</body>
+</html>
