@@ -1,238 +1,300 @@
-/* General Reset */
+/* ========= Reset & Defaults ========= */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-    color: #fff;
-    overflow-x: hidden;
-    min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Loading Screen */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+}
+
+/* ========= Loading Screen ========= */
 .loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    transition: opacity 0.5s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
 }
 
 .loading-screen.hidden {
-    opacity: 0;
-    pointer-events: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .glitch-text {
-    font-size: 4rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    color: #00ffff;
-    animation: glitch 2s infinite;
+  font-size: 4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+  color: #00ffff;
+  animation: glitch 2s infinite;
 }
 
 .glitch-text::before,
 .glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .glitch-text::before {
-    animation: glitch-1 2s infinite;
-    color: #ff00ff;
-    z-index: -1;
+  animation: glitch-1 2s infinite;
+  color: #ff00ff;
+  z-index: -1;
 }
 
 .glitch-text::after {
-    animation: glitch-2 2s infinite;
-    color: #ffff00;
-    z-index: -2;
+  animation: glitch-2 2s infinite;
+  color: #ffff00;
+  z-index: -2;
 }
 
 @keyframes glitch {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
 }
 
 @keyframes glitch-1 {
-    0%, 100% { transform: translate(0); }
-    10% { transform: translate(-5px, -2px); }
-    20% { transform: translate(-10px, 2px); }
-    30% { transform: translate(5px, -1px); }
-    40% { transform: translate(-5px, 2px); }
-    50% { transform: translate(-10px, -2px); }
-    60% { transform: translate(5px, 0); }
-    70% { transform: translate(-15px, 1px); }
-    80% { transform: translate(10px, -1px); }
-    90% { transform: translate(-5px, 2px); }
+  0%, 100% { transform: translate(0); }
+  10% { transform: translate(-5px, -2px); }
+  20% { transform: translate(-10px, 2px); }
+  30% { transform: translate(5px, -1px); }
+  40% { transform: translate(-5px, 2px); }
+  50% { transform: translate(-10px, -2px); }
+  60% { transform: translate(5px, 0); }
+  70% { transform: translate(-15px, 1px); }
+  80% { transform: translate(10px, -1px); }
+  90% { transform: translate(-5px, 2px); }
 }
 
 @keyframes glitch-2 {
-    0%, 100% { transform: translate(0); }
-    10% { transform: translate(5px, 2px); }
-    20% { transform: translate(10px, -2px); }
-    30% { transform: translate(-5px, 1px); }
-    40% { transform: translate(5px, -2px); }
-    50% { transform: translate(10px, 2px); }
-    60% { transform: translate(-5px, 0); }
-    70% { transform: translate(15px, -1px); }
-    80% { transform: translate(-10px, 1px); }
-    90% { transform: translate(5px, -2px); }
+  0%, 100% { transform: translate(0); }
+  10% { transform: translate(5px, 2px); }
+  20% { transform: translate(10px, -2px); }
+  30% { transform: translate(-5px, 1px); }
+  40% { transform: translate(5px, -2px); }
+  50% { transform: translate(10px, 2px); }
+  60% { transform: translate(-5px, 0); }
+  70% { transform: translate(15px, -1px); }
+  80% { transform: translate(-10px, 1px); }
+  90% { transform: translate(5px, -2px); }
 }
 
 .loading-spinner {
-    margin-top: 2rem;
-    width: 50px;
-    height: 50px;
-    border: 3px solid #333;
-    border-top: 3px solid #00ffff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  margin-top: 2rem;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #333;
+  border-top: 3px solid #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .dev-credit {
-    position: absolute;
-    bottom: 20px;
-    justify-content: space-between;
-    align-items: center;
+  position: absolute;
+  bottom: 20px;
+  font-size: 0.9rem;
+  color: #666;
 }
 
-/* Logo */
+/* ========= Header ========= */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #333;
+}
+
+header nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+header nav a {
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+header nav a:hover {
+  color: #00ffff;
+}
+
 .logo {
-    font-size: 2rem;
-    font-weight: bold;
-    background: linear-gradient(45deg, #00ffff, #ff00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  height: 40px;
+  filter: drop-shadow(0 0 5px #00ffff);
 }
 
-/* Search Section */
+/* ========= Side Menu ========= */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 250px;
+  height: 100%;
+  background: #111;
+  padding: 2rem 1.5rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: left 0.3s ease;
+}
+
+.side-menu.show {
+  left: 0;
+}
+
+.side-menu nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.side-menu nav a {
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  font-size: 2rem;
+  align-self: flex-end;
+  color: #ff0055;
+}
+
+#toggleTheme {
+  margin-top: auto;
+  padding: 0.6rem 1rem;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+#toggleTheme:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ========= Main Content ========= */
+.main-content {
+  padding: 2rem;
+}
+
 .search-container {
-    display: flex;
-    gap: 1rem;
-    flex: 1;
-    max-width: 500px;
-    margin: 0 2rem;
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 2rem 0;
 }
 
-.search-input {
-    flex: 1;
-    padding: 0.8rem;
-    border: 1px solid #333;
-    border-radius: 25px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    outline: none;
-    transition: all 0.3s ease;
+#searchInput {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #333;
+  border-radius: 25px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
-.search-input:focus {
-    border-color: #00ffff;
+#searchInput:focus {
+  border-color: #00ffff;
 }
 
-/* Chatroom */
-.chatroom {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid #333;
-    margin: 2rem 0;
-    max-width: 800px;
-    height: 400px;
-    overflow-y: auto;
-    margin: 0 auto;
+#searchBtn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  background: #00ffff;
+  color: #000;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-.message {
-    margin: 1rem 0;
-    padding: 0.8rem 1rem;
-    border-radius: 10px;
-    max-width: 70%;
-    word-wrap: break-word;
+#searchBtn:hover {
+  background: #0ff;
 }
 
-.message.user {
-    background: #00ffff;
-    color: #000;
-    align-self: flex-end;
-}
-
-.message.bot {
-    background: #333;
-    color: #fff;
-    align-self: flex-start;
-}
-
-.chat-input-container {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.chat-input {
-    flex: 1;
-    padding: 0.8rem;
-    border: 1px solid #333;
-    border-radius: 25px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.chat-input:focus {
-    border-color: #00ffff;
-}
-
-button[type="submit"] {
-    padding: 0.8rem 1.5rem;
-    background: linear-gradient(45deg, #00ffff, #0099cc);
-    border: none;
-    border-radius: 25px;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
-}
-
-/* Footer */
+/* ========= Footer ========= */
 .chatroom-footer {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1rem 2rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-    border-top: 1px solid #333;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  border-top: 1px solid #333;
+}
+
+/* ========= Dark Mode Class (optional future switch) ========= */
+.dark-mode {
+  background: linear-gradient(135deg, #000000 0%, #1c1c1c 100%);
+  color: #eee;
+}
+
+.dark-mode header,
+.dark-mode .side-menu,
+.dark-mode .chatroom-footer {
+  background: #121212;
+  border-color: #222;
+}
+
+.dark-mode #searchInput {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ========= Results Grid ========= */
+#resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
 }
