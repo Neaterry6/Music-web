@@ -116,36 +116,7 @@ body {
 
 .dev-credit {
     position: absolute;
-    bottom: 20px;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* Main Content */
-.main-content {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.main-content.visible {
-    opacity: 1;
-}
-
-header {
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #333;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
+    bottom: 20px justify-content: space-between;
     align-items: center;
 }
 
@@ -170,70 +141,4 @@ header {
 
 .search-input {
     flex: 1;
-    padding: 0.8rem 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #333;
-    border-radius: 25px;
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    border-color: #00ffff;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-}
-
-.search-btn {
-    padding: 0.8rem 1.5rem;
-    background: linear-gradient(45deg, #00ffff, #0099cc);
-    border: none;
-    border-radius: 25px;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.search-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
-}
-
-/* Content Section */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.welcome-section {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.welcome-section h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.welcome-section p {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 2rem;
-}
-
-/* Chatroom */
-.chatroom {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid #333;
-    margin: 2rem 0;
-    max-width: 800px;
-    margin: 0 auto;
+    padding`
