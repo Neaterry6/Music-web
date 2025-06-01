@@ -1,29 +1,42 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StreamMe - Music & Videos</title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>  <!-- Loading Screen -->  <div class="loading-screen" id="loadingScreen">
-    <div class="glitch-text" data-text="StreamMe">StreamMe</div>
-    <div class="loading-spinner"></div>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class <div class="loading-spinner"></div>
     <div class="dev-credit">Powered by StreamMe ID</div>
-  </div>  <!-- Side Navigation Menu -->  <div class="side-menu" id="sideMenu">
+  </div>
+
+  <!-- Side Navigation Menu -->
+  <div class="side-menu" id="sideMenu">
     <button class="close-btn" id="closeMenu">&times;</button>
     <nav>
       <a href="./index.html">🏠 Home</a>
       <a href="./play.html">▶️ Playback</a>
       <a href="./lyrics.html">🎶 Lyrics</a>
       <a href="./profile.html">👤 Profile</a>
-      <a href="./about.html">📖 About</a>
+      <a href="./about.html">>
+      <a href="./signup.html">📝 Sign Up</a>
+      <a href="./anime.html">🍿 Anime</a>
+      <a href="./anime-download.html">⬇️ Anime Download</a>
+      <a href="./tools.html">🛠️ Tools</a>
     </nav>
     <button id="toggleTheme">🌓 Toggle Theme</button>
-  </div>  <!-- Main Content Wrapper -->  <div class="main-content" id="mainContent">
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="main-content" id="mainContent">
     <header>
       <div class="header-left">
         <button id="menuButton">☰</button>
-        <img src="./assets/logo.png" alt="StreamMe Logo" class="logo">
+        <img src="./assets/logo alt="StreamMe Logo" class="logo">
       </div>
       <nav class="top-nav">
         <a href="./index.html">Home</a>
@@ -31,24 +44,18 @@
         <a href="./lyrics.html">Lyrics</a>
         <a href="./profile.html">Profile</a>
         <a href="./about.html">About</a>
-      </nav>
-    </header><main>
-  <h1>Welcome to StreamMe</h1>
-  <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="Search for music or videos...">
-    <button id="searchBtn">Search</button>
-  </div>
-  <div id="welcomeSection">
-    <p>Discover trending music and videos!</p>
-  </div>
-  <div id="loadingIndicator" style="display: none;"></div>
-  <div id="resultsGrid"></div>
-</main>
+        <a href="./login.html">Login</a>
+        <a href="./signup.html">Sign Up</a>
+        <a href="./anime.html">Anime</a>
+        <a href="./anime-download.html">Anime Download    </header>
 
-  </div>  <script>
-    // Loading screen hide after load
-    window.addEventListener('load', () => {
-      document.getElementById('loadingScreen').classList.add('hidden');
+    <main>
+      <h1>Welcome to StreamMe</h1>
+      <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search for music or videos...">
+        <button id="searchBtn">Search</button>
+      </div>
+      <div id="welcomeSectionList.add('hidden');
     });
 
     // Menu toggle
@@ -69,5 +76,6 @@
     toggleTheme.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
-  </script></body>
+  </script>
+</body>
 </html>
