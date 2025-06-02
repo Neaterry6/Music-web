@@ -15,20 +15,26 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "body-parser": "^1.20.2",
-    "multer": "^1.4.5",
-    "axios": "^1.6.0"
-  },
-  "devDependencies": {
+    "multer": "^1.4.5 {
     "nodemon": "^3.0.1",
     "tailwindcss": "^3.3.0"
+  },
+  "keywords": [
+    "streaming",
+    "music",
+    "video",
+    "playback",
+    "anime",
+    "downloads",
+    "chatbot",
+    "tools",
+    "profile",
     "streamme",
     "UI",
     "public",
-    "css"
-  },
+    "css",
+    "render",
+    "vercel"
+  ],
   "author": "heisbroken ✍️",
-  "license": "MIT",
-  "engines": {
-    "node": ">=16.0.0"
-  }
-}
+  "license
